@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# shellcheck disable=SC2164
+cd /Users/vitalij/paradigms/java-solutions
+
+for file in queue/LinkedQueue.java queue/ArrayQueue.java queue/AbstractQueue.java queue/Queue.java
+do
+javac ${file}
+echo "\"$file\" compiled"
+done
+
+echo
+
+java -jar -ea --add-opens java.base/java.util=ALL-UNNAMED /Users/vitalij/paradigms/tests/paradigms-2023/artifacts/queue/QueueTest.jar Count
