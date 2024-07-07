@@ -1,0 +1,338 @@
+:root {
+    --border-color: rgb(185, 185, 185);
+    --border-radius: 6px;
+    --black-color: #333;
+    --caption-color: #3B5998;
+    color: var(--black-color);
+    font-family: Verdana, sans-serif;
+    font-size: 16px;
+    --light-gray-color: #f4f4f4;
+    --table-gray-color: #DBDBDB;
+    --light-blue-color: #3B5B9B;
+}
+
+html {
+    padding: 1rem;
+    min-width: 600px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+    :root {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 800px) {
+    :root {
+        font-size: 12px;
+    }
+}
+
+header {
+    position: relative;
+}
+
+header .languages {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+header .enter-or-register-box {
+    position: absolute;
+    top: 32px;
+    right: 0;
+}
+
+header nav {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 0.25rem;
+    margin-top: 1rem;
+}
+
+header nav ul {
+    margin: 0;
+    padding: 0;
+    display: inline;
+}
+
+header nav ul li {
+    display: inline;
+    margin-left: 1rem;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: var(--black-color);
+    font-family: "Arial Narrow", sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+header nav .search {
+    float: right;
+    font-size: 0.75rem;
+    padding-right: 0.25rem;
+}
+
+header nav form input {
+    height: 1rem;
+    width: 10rem;
+    padding: 0 0.2rem 0.2rem 2.0rem;
+    background-size: 1rem 1rem;
+    background: var(--light-gray-color) url("../img/search-16x16.png") no-repeat;
+    background-position: 5% center;
+}
+
+.middle {
+    margin-top: 1rem;
+    overflow: auto;
+}
+
+main table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+
+.middle div.datatable {
+    border: 1px solid var(--table-gray-color);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.middle main div.caption {
+    /*rem*/
+    padding-left: 5px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    background-color: var(--table-gray-color);
+}
+
+main table tr:nth-child(2n+1) {
+    background-color: var(--light-gray-color);
+}
+
+main table td {
+    border: 1px solid var(--table-gray-color);
+    padding: 0.4rem;
+}
+
+main table th {
+    border: 1px solid var(--table-gray-color);
+    background-color: white;
+    padding: 0.4rem;
+}
+
+.middle main div table tbody {
+    text-align: center;
+}
+
+aside {
+    float: right;
+    width: 20rem;
+}
+
+main {
+    margin-right: 21rem;
+}
+
+main article {
+    width: 100%;
+}
+
+main article .title{
+    font-size: 20px;
+    font-family: "Verdana", monospace;
+    color: var(--light-blue-color);
+    font-weight: bold;
+}
+
+main article .information{
+    font-size: 14px;
+    font-family: "Verdana", monospace;
+    color: gray;
+}
+
+main article .body{
+    padding-left: 15px;
+    border-left: 5px solid lightgray;
+}
+
+main article .attachment{
+    font-size: 12px;
+    color: lightgray;
+    list-style-image: url("../img/paperclip-16x16.png");
+}
+
+main article .attachment li{
+    margin-bottom: 2px;
+    padding-bottom: 2px;
+}
+
+main article .footer{
+    position: relative;
+    border: 1px solid var(--table-gray-color);
+    border-radius: var(--border-radius);
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+
+main article .footer .left{
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+main article .footer .left .positive-score{
+    font-size: 20px;
+    color: green;
+    vertical-align: middle;
+    position: relative;
+}
+
+main article .footer .left img{
+    vertical-align: middle;
+}
+
+main article .footer .right{
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+}
+
+main .login-form-box{
+    position: relative;
+    width: 28rem;
+    margin: auto;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    border: 2px solid var(--table-gray-color);
+}
+
+main .login-form-box .header{
+    margin-top: 5px;
+    margin-left: 5px;
+    padding-bottom: 2px;
+    font-weight: bold;
+    color: var(--light-blue-color);
+}
+
+main .login-form-box .body{
+    padding-bottom: 25px;
+    padding-left: 10%;
+    padding-top: 25px;
+    border-top: 3px solid var(--table-gray-color);
+    border-bottom: 3px solid var(--table-gray-color);
+}
+
+main .login-form-box .body :nth-child(2){
+    margin-top: 20px;
+    margin-left: 3.3rem;
+}
+
+main .field {
+    margin-left: 5%;
+}
+
+main .login-form-box .body .field .name {
+    display: inline;
+}
+
+main .login-form-box .body .field .value {
+    display: inline;
+    margin-left: 1%;
+}
+
+main .field .value #handleOrEmail {
+    width:60%;
+}
+
+main .field .value #password{
+    width:65%;
+}
+
+main .login-form-box .body .field .error{
+    margin-left:5.5rem;
+    font-size: 12px;
+    color: red;
+}
+
+main .login-form-box .body .checkbox-field {
+    display: inline-block;
+    margin-top:20px;
+    margin-right: auto;
+    margin-left: 33%;
+}
+
+main .login-form-box .body .checkbox-field input {
+    color: var(--table-gray-color);
+    filter: brightness(80%);
+}
+
+main .login-form-box .body .checkbox-field label {
+    margin-left: 0px;
+    font-size: 12px;
+}
+
+main .button-field input{
+    margin-top: 30px;
+    margin-left: 33%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+main .links{
+    margin-top:10px;
+    float:right;
+    font-size: 12px;
+}
+
+main .login-form-box .footer{
+    text-align:right;
+    font-size: 12px;
+    padding: 4px;
+}
+
+footer {
+    margin-top: 2rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 0.5rem;
+    text-align: center;
+}
+
+aside section {
+    border: 1px solid var(--border-color);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+}
+
+aside section .header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 0.25rem;
+    font-weight: bold;
+    color: var(--caption-color);
+}
+
+aside section .header:before {
+    content: "→";
+}
+
+aside section .body {
+    padding: 1rem;
+}
+
+aside section .footer {
+    border-top: 1px solid var(--border-color);
+    overflow: auto;
+    padding: 0.25rem;
+}
+
+aside section .footer a {
+    float: right;
+    font-size: 0.75rem;
+}
+
+aside section .footer a:after {
+    content: " →";
+}
