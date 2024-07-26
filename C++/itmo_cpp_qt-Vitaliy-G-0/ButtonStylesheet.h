@@ -1,0 +1,102 @@
+#ifndef BUTTONSTYLESHEET_H
+#define BUTTONSTYLESHEET_H
+
+#include <QString>
+
+const QString ButtonStylesheet = "QRadioButton {"
+                                 "    color: #333;"
+                                 "    font-size: 14px;"
+                                 "}"
+                                 "QRadioButton::indicator {"
+                                 "    width: 18px;"
+                                 "    height: 18px;"
+                                 "}"
+                                 "QRadioButton::indicator:checked {"
+                                 "    background-color: #2196F3;"
+                                 "    border: 2px solid #2196F3;"
+                                 "}"
+                                 "QRadioButton::indicator:unchecked {"
+                                 "    background-color: #FFFFFF;"
+                                 "    border: 2px solid #555555;"
+                                 "}";
+
+
+const QString SliderStylesheet = "QSlider {"
+                                 "    background-color: #ECECEC;"
+                                 "    height: 8px;"
+                                 "    border-radius: 4px;"
+                                 "}"
+                                 "QSlider::groove:horizontal {"
+                                 "    background-color: #ECECEC;"
+                                 "}"
+                                 "QSlider::handle:horizontal {"
+                                 "    background-color: #2196F3;"
+                                 "    width: 16px;"
+                                 "    margin: -4px 0px;"
+                                 "    border-radius: 8px;"
+                                 "}";
+
+
+const QString SpinBoxStylesheet =
+                                "QSpinBox {"
+                                "    font-size: 14px;"
+                                "    color: #333;"
+                                "    background-color: #ECECEC;"
+                                "    border: 2px solid #555555;"
+                                "    padding: 5px;"
+                                "}"
+                                ""
+                                "QSpinBox::up-button,"
+                                "QSpinBox::down-button {"
+                                "    width: 16px;"
+                                "    border: none;"
+                                "    background-color: #ECECEC;"
+                                "}"
+                                ""
+                                "QSpinBox::up-button:hover,"
+                                "QSpinBox::down-button:hover,"
+                                "QSpinBox::up-button:pressed,"
+                                "QSpinBox::down-button:pressed,"
+                                "QSpinBox::up-button:checked,"
+                                "QSpinBox::down-button:checked {"
+                                "    background-color: #1565C0;"
+                                "    border-color: #1565C0;"
+                                "    color: #FFFFFF;"
+                                "}"
+                                ""
+                                "QSpinBox::up-button:hover,"
+                                "QSpinBox::down-button:hover {"
+                                "    background-color: #2196F3;"
+                                "}";
+
+
+const QString CheckBoxStylesheet =
+                                "QCheckBox {"
+                                "    font-size: 14px;"
+                                "    color: #333;"
+                                "    background-color: #ECECEC;"
+                                "    padding: 5px;"
+                                "}"
+                                ""
+                                "QCheckBox::indicator {"
+                                "    width: 16px;"
+                                "    height: 16px;"
+                                "}"
+                                ""
+                                "QCheckBox::indicator:unchecked {"
+                                "    image: url(:/unchecked_image.png);"
+                                "}"
+                                ""
+                                "QCheckBox::indicator:checked {"
+                                "    image: url(:/checked_image.png);"
+                                "}"
+                                ""
+                                "QCheckBox:hover {"
+                                "    background-color: #2196F3;"
+                                "}"
+                                ""
+                                "QCheckBox:checked {"
+                                "    background-color: #CAF2FD;"
+                                "}";
+
+#endif // BUTTONSTYLESHEET_H
