@@ -1,0 +1,4 @@
+#!/bin/bash
+
+sudo grep -h -E -r -o '[[:alnum:]+\.\_-]*@[[:alnum:]+\.\_-]*' /etc/ | awk '{printf("%s, ", $1)}' >OS/emails.lst
+

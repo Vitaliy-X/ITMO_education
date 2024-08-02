@@ -1,0 +1,14 @@
+#!/bin/bash
+
+str=""
+
+while IFS= read line; do
+  if [[ "$line" == "q" ]]; then
+    break
+  fi
+
+  str+="$line"
+done
+
+echo ""
+echo "$str"

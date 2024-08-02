@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ "$PWD" == "$HOME" ]; then
+  echo "$HOME"
+else
+  echo "The script was not launched from the home directory"
+  exit 1
+fi
+

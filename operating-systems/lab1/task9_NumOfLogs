@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Number of logs = "$(sudo find /var/log/ -name "*.log" -type f -exec wc -l {} \;
+#|
+  #awk '{total += $1} END {print total}'
+)
+

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# script for centOS
+
+output="out1"
+user="vitalij"
+count=$(ps -u $user --no-headers | wc -l)
+echo $count > $output
+ps -u $user --no-headers | awk '{print $0 ":" $4}' >> $output

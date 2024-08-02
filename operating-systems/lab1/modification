@@ -1,0 +1,9 @@
+#!/bin/bash
+
+file_path=$1
+
+temp_file=$(mktemp)
+
+awk '/^#!/ || !/^#/' "$file_path" > "$temp_file"
+      #hsjkahkjh
+mv "$temp_file" "$file_path"

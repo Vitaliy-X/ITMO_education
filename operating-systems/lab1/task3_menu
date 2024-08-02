@@ -1,0 +1,21 @@
+#!/bin/bash
+
+echo
+echo "1. Nano        2. Vi"
+echo "3. Links       4. Exit"
+echo
+
+while true; do
+  read digit
+  case "$digit" in
+  "1") nano 
+  ;;
+  "2") vi 
+  ;;
+  "3") links 
+  ;;
+  "4") break 
+  ;;
+  esac
+  echo "Enter a number from 1 to 4"
+done

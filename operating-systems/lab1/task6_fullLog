@@ -1,0 +1,7 @@
+#!/bin/bash
+dir="/var/log/anaconda/X.log"
+
+cat $dir | grep '\] (WW)' | sed 's/(WW)/Warning:/' > full.log
+cat $dir | grep '\] (II)' | sed 's/(II)/Information:/' >> full.log
+
+cat "full.log"

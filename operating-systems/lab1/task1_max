@@ -1,0 +1,14 @@
+#!/bin/bash
+
+let a
+if [[ "$1" -gt "$2" ]]; then
+  a="$1"
+else 
+  a="$2"
+fi
+
+if [[ "$3" -gt "$a" ]]; then
+  echo "$3"
+else
+  echo "$a"
+fi 
