@@ -1,0 +1,61 @@
+start: init
+accept: ac
+reject: rj
+blank: _
+
+init 1 -> move_right x >
+init 0 -> move_right y >
+
+move_right < -> move_right < >
+move_right 1 -> move_right 1 >
+move_right 0 -> move_right 0 >
+move_right y -> move_left y <
+move_right x -> move_left x <
+move_right _ -> move_left _ <
+
+move_left 1 -> move_left_back x <
+move_left 0 -> move_left_back y <
+
+move_left_back < -> move_left_back < <
+move_left_back 1 -> move_left_back 1 <
+move_left_back 0 -> move_left_back 0 <
+move_left_back y -> init y >
+move_left_back x -> init x >
+move_left_back _ -> init _ >
+
+init y -> check_notation y ^
+init x -> check_notation x ^
+move_left y -> rj y ^
+move_left x -> rj x ^
+
+move_to_check_y < -> move_to_check_y < <
+move_to_check_y y -> move_to_check_y y <
+move_to_check_y x -> move_to_check_y x <
+move_to_check_y _ -> check_y _ >
+
+move_to_check_x < -> move_to_check_x < <
+move_to_check_x y -> move_to_check_x y <
+move_to_check_x x -> move_to_check_x x <
+move_to_check_x _ -> check_x _ >
+
+move_left < -> rj < ^
+init < -> check_equal < >
+check_equal 0 -> ac 0 ^
+check_equal 1 -> ac 1 ^
+check_equal y -> prepare_check y ^
+check_equal x -> prepare_check x ^
+
+check_y y -> move _ >
+check_y x -> rj _ ^
+
+check_x y -> ac _ ^
+check_x x -> move _ >
+
+move y -> move y >
+move x -> move x >
+move < -> prepare_check < >
+
+prepare_check < -> prepare_check < >
+prepare_check y -> move_to_check_y < <
+prepare_check x -> move_to_check_x < <
+prepare_check _ -> rj _ ^

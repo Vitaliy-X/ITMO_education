@@ -1,0 +1,43 @@
+start: s
+accept: ac
+reject: rj
+blank: _
+
+s 0 _ _ -> s 0 _ _ >
+s 1 _ _ -> s 1 _ _ >
+s o _ _ -> s o _ _ >
+s a _ _ -> s a _ _ >
+s _ _ _ -> eval _ _ _ <
+
+eval 0 _ _ -> push0 _ 0 _ >
+eval 1 _ _ -> push1 _ 1 _ >
+eval o _ _ -> or _ _ _ <
+eval a _ _ -> and _ _ _ <
+eval _ _ _ -> ac _ _ _ ^
+
+push0 _ _ _ -> s _ _ 0 >
+push1 _ _ _ -> s _ _ 1 >
+
+or _ _ 0 -> pop0 _ _ _ <
+or _ _ 1 -> pop1 _ _ _ <
+or _ _ _ -> rj _ _ _ ^
+
+pop0 _ _ 0 -> push0 _ 0 _ >
+pop0 _ _ 1 -> push1 _ 1 _ >
+pop0 _ _ _ -> rj _ _ _ ^
+
+pop1 _ _ 0 -> push1 _ 1 _ >
+pop1 _ _ 1 -> push1 _ 1 _ >
+pop1 _ _ _ -> rj _ _ _ ^
+
+and _ _ 0 -> pop0 _ _ _ <
+and _ _ 1 -> pop1 _ _ _ <
+and _ _ _ -> rj _ _ _ ^
+
+pop0 _ _ 0 -> push0 _ 0 _ >
+pop0 _ _ 1 -> push0 _ 0 _ >
+pop0 _ _ _ -> rj _ _ _ ^
+
+pop1 _ _ 0 -> push0 _ 0 _ >
+pop1 _ _ 1 -> push1 _ 1 _ >
+pop1 _ _ _ -> rj _ _ _ ^

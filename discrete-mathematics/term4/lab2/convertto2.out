@@ -1,0 +1,41 @@
+start: init
+accept: ac
+reject: rj
+blank: _
+
+init 0 -> init 0 <
+init 1 -> init 1 <
+init 2 -> init 2 <
+init _ -> prep $ <
+
+prep _ -> scan 0 >
+
+scan 0 -> scan 0 >
+scan 1 -> scan 1 >
+scan 2 -> scan 2 >
+scan $ -> scan $ >
+scan _ -> decrement _ <
+
+decrement 2 -> backtrack 1 <
+decrement 1 -> backtrack 0 <
+decrement 0 -> decrement 2 <
+decrement $ -> cleanup $ >
+
+backtrack 0 -> backtrack 0 <
+backtrack 1 -> backtrack 1 <
+backtrack 2 -> backtrack 2 <
+backtrack $ -> increment $ <
+
+increment _ -> scan 1 >
+increment 0 -> scan 1 >
+increment 1 -> increment 0 <
+
+cleanup 2 -> cleanup $ >
+cleanup _ -> cleanup _ <
+cleanup $ -> cleanup _ <
+cleanup 0 -> finalize 0 <
+cleanup 1 -> finalize 1 <
+
+finalize 0 -> finalize 0 <
+finalize 1 -> finalize 1 <
+finalize _ -> ac _ >
