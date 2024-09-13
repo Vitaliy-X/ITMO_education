@@ -7,12 +7,12 @@
 
 ## Курсы
 
-- [C++](C++)  
-- [Web](Web)  
-- [Algorithms and Data Structures](algorithms-and-data-structures)  
-- [Computer Architecture](computer-architecture)  
-- [Discrete Mathematics](discrete-mathematics)  
-- [Java Advanced](java-advanced)  
-- [Operating Systems](operating-systems)  
-- [Paradigms](paradigms)  
-- [Prog Intro](prog-intro)  
+- [C++](https://github.com/Vitaliy-X/ITMO_education/tree/main/C++)  
+- [Web](https://github.com/Vitaliy-X/ITMO_education/tree/main/Web)  
+- [Algorithms and Data Structures](https://github.com/Vitaliy-X/ITMO_education/tree/main/algorithms-and-data-structures)  
+- [Computer Architecture](https://github.com/Vitaliy-X/ITMO_education/tree/main/computer-architecture)  
+- [Discrete Mathematics](https://github.com/Vitaliy-X/ITMO_education/tree/main/discrete-mathematics)  
+- [Java Advanced](https://github.com/Vitaliy-X/ITMO_education/tree/main/java-advanced)  
+- [Operating Systems](https://github.com/Vitaliy-X/ITMO_education/tree/main/operating-systems)  
+- [Paradigms](https://github.com/Vitaliy-X/ITMO_education/tree/main/paradigms)  
+- [Prog Intro](https://github.com/Vitaliy-X/ITMO_education/tree/main/prog-intro)  
