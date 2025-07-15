@@ -1,0 +1,182 @@
+:root {
+    --main-color: #36281d;
+    --news-font: 'Montserrat', sans-serif;
+}
+
+body {
+    font-family: var(--news-font);
+    font-weight: 200;
+    font-style: italic;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.A4 {
+    font-size: 1.4em;
+    margin: auto;
+    padding: 1cm;
+    display: flex;
+    flex-direction: column;
+    background-color: blanchedalmond;
+    background-image: url('/images/old-paper.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 0.5cm;
+    position: relative;
+}
+
+.publication-date {
+    font-size: 1em;
+    font-family: var(--news-font);
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 1cm;
+}
+
+.publication-date::before {
+    content: "вторник";
+    display: block;
+}
+
+.logo {
+    width: 400px;
+    height: auto;
+    animation: slideIn 1s ease-in-out;
+}
+
+.newspaper-title {
+    font-size: 2em;
+    font-family: var(--news-font);
+    margin: 0;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.subtitle {
+    font-size: 1em;
+    font-family: var(--news-font);
+    margin: 0;
+    animation: fadeIn 2s ease-in-out;
+}
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.main-news,
+.electricity-news,
+.fun-stories {
+    width: 32%;
+    margin-bottom: 0.5cm;
+    break-inside: avoid;
+}
+
+.dropcap::first-letter {
+    font-size: 2.5em;
+    float: left;
+    margin-right: 0.1em;
+    line-height: 1;
+}
+
+figure {
+    text-align: center;
+    margin: 0.5cm 0;
+}
+
+blockquote {
+    font-style: italic;
+    margin: 0.5cm 0;
+    padding: 0.5cm;
+    background-color: #e0e0e0;
+    border-left: 5px solid #333;
+    transition: transform 0.3s ease-in-out;
+    break-inside: avoid;
+}
+
+blockquote:hover {
+    transform: translateX(10px);
+}
+
+footer {
+    text-align: center;
+    font-size: 0.8em;
+    border-top: 1px solid #000;
+    padding-top: 0.5cm;
+    flex-shrink: 0;
+    margin-top: auto;
+}
+
+body.large-font {
+    font-size: 1.5em;
+}
+
+body.small-font {
+    font-size: 0.75em;
+}
+
+body.dark-theme {
+    background-color: #333;
+    color: white;
+}
+
+body.dark-theme .header,
+body.dark-theme footer {
+    background-color: #000;
+}
+
+body.hidden-text {
+    visibility: hidden;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@media print {
+    .A4 {
+        width: 21cm;
+        height: 29.7cm;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 1200px) {
+    .main-news,
+    .electricity-news,
+    .fun-stories {
+        width: 48%;
+        float: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .main-news,
+    .electricity-news,
+    .fun-stories {
+        width: 100%;
+        float: none;
+        margin-bottom: 1cm;
+    }
+}
