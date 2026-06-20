@@ -1,0 +1,90 @@
+include:
+  - local: jobs/kaniko.yml
+  - local: variables/main.yml
+  - local: jobs/dotenv_push.yml
+  - local: jobs/npm_builder.yml
+  - local: rules/main.yml
+
+stages:
+  - build
+  - publish
+  - deploy
+
+npm_setup_cache:
+  stage: .pre
+  needs: []
+  extends: [ .npm_common_cache, .npm_build_step, .allow_failure ]
+  script:
+    - !reference [.npm_init_and_install]
+  rules:
+    - !reference [.enable_lint]
+    - !reference [.on_merge_requests]
+    - !reference [.on_default_branch]
+
+frontend_lint_check:
+  stage: .pre
+  image:
+    name: $NODEJS_IMAGE
+    entrypoint: [""]
+  cache:
+    - key: node-modules-cache
+      paths:
+        - .cache
+      policy: pull
+    - key:
+        prefix: lockfile-node-modules
+        files:
+          - package-lock.json
+      paths:
+        - node_modules
+      policy: pull
+  script:
+    - '[ ! -d "./node_modules" ] && npm ci || true'
+    - npx eslint src/ --format gitlab --output-file eslint.codequality.json || true
+  artifacts:
+    paths:
+      - eslint.codequality.json
+    reports:
+      codequality: eslint.codequality.json
+  allow_failure: true
+  rules:
+    - !reference [.enable_lint]
+    - !reference [.on_merge_requests]
+    - !reference [.on_default_branch]
+
+npm_package_build:
+  stage: build
+  needs:
+    - job: npm_setup_cache
+      artifacts: false
+  extends: [ .npm_build_step ]
+  artifacts:
+    expire_in: 1h
+    paths:
+      - dist
+  rules:
+    - !reference [.on_merge_requests]
+    - !reference [.on_default_branch]
+    - !reference [.on_release_tag]
+
+publishing_job:
+  stage: publish
+  needs:
+    - job: npm_package_build
+      artifacts: true
+  extends: [ .job__kaniko_publish_image ]
+  interruptible: false
+  rules:
+    - !reference [.on_default_branch]
+    - !reference [.on_release_tag]
+
+env_deploy_run:
+  stage: deploy
+  needs:
+    - job: publishing_job
+      artifacts: true
+  extends: [ .job__dotenv_push ]
+  rules:
+    - !reference [.on_default_branch]
+    - !reference [.on_release_tag]
+  

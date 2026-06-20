@@ -1,0 +1,40 @@
+include:
+  - local: jobs/git_strategy.yml
+
+variables:
+  IMAGE_TAG: ""
+  IMAGE_OUTPUT_DOTENV_KEY: $CI_PROJECT_NAME
+  IMAGE_OUTPUT_DOTENV_FILE: $CI_PROJECT_NAME
+
+.job__kaniko_publish_image:
+  extends:
+    - .job__shallow_clone 
+  stage: publish
+  needs:
+    - job: Build Package
+      artifacts: true
+  interruptible: false
+  image:
+    name: $KANIKO_IMAGE
+    entrypoint: [""]
+  script:
+    - b64_auth=$(printf '%s:%s' "$HARBOR_USER" "$HARBOR_PASSWORD" | base64 | tr -d '\n')
+    - >-
+      printf '{"auths": {"%s": {"auth": "%s"}}}' "$HARBOR_HOST" "$b64_auth"
+      >/kaniko/.docker/config.json
+    - >-
+      /kaniko/executor
+      --cache
+      --use-new-run
+      --skip-unused-stages
+      --context "$CI_PROJECT_DIR"
+      --dockerfile "$CI_PROJECT_DIR/Dockerfile"
+      --destination "$HARBOR_IMAGE:$IMAGE_TAG"
+      --cache-repo "$HARBOR_IMAGE/cache"
+    - >-
+      if [ -n "${IMAGE_OUTPUT_DOTENV_KEY:-}" ]
+      ; then printf '%s=%s' "${IMAGE_OUTPUT_DOTENV_KEY//-/_}_IMAGE" "$HARBOR_IMAGE:$IMAGE_TAG" >"$IMAGE_OUTPUT_DOTENV_FILE"
+      ; fi
+  artifacts:
+    paths:
+      - $IMAGE_OUTPUT_DOTENV_FILE

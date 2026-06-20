@@ -1,0 +1,8 @@
+#!/bin/sh
+#shellcheck shell=sh
+set -eu
+
+HERE=$(dirname -- "$(realpath -- "$0")")
+
+. "${HERE}/bin/activate.sh"
+exec python -m counter_backend

@@ -1,0 +1,39 @@
+include:
+  - local: variables/main.yml
+
+.npm_init_and_install:
+  - '[ ! -d "./node_modules" ] && npm ci || true'
+
+.npm_common_cache:
+  cache:
+    - &cache_npm_pkgs
+      key: node-modules-cache
+      paths:
+        - .cache
+      unprotect: true
+    - &cache_node_modules
+      key:
+        prefix: lockfile-node-modules
+        files:
+          - package-lock.json
+      paths:
+        - node_modules
+
+.npm_build_step:
+  image:
+    name: $NODEJS_IMAGE
+    entrypoint: [""]
+  cache:
+    - <<: *cache_npm_pkgs
+      policy: pull
+    - <<: *cache_node_modules
+      policy: pull
+    - key: next-js-cache
+      paths:
+        - .next/cache
+  script:
+    - !reference [.npm_init_and_install]
+    - npm run build
+    - '[ -d .next/standalone ] && mv .next/standalone dist || :'
+    - '[ -d public ] && mv public dist/public || :'
+    - '[ -d .next/static ] && mv .next/static dist/.next/static || :'

@@ -1,0 +1,14 @@
+variables:
+  HARBOR_IMAGE: $HARBOR_HOST/$HARBOR_PROJECT/$CI_PROJECT_NAME
+  KANIKO_IMAGE: registry.devops-teta.ru/materials/ci/images/kaniko:1.9.1
+  NODEJS_IMAGE: registry.devops-teta.ru/materials/ci/images/nodejs:18.18.2-bookworm
+  PYTHON_IMAGE: python:3.11-slim-bookworm
+  NEXT_TELEMETRY_DISABLED: "1"
+  NPM_CONFIG_CACHE: $CI_PROJECT_DIR/.cache/npm
+  ENABLE_TESTS: "true"
+  ENABLE_LINT: "true"
+  POETRY_CACHE_DIR: .cache/pypoetry
+  PIP_CACHE_DIR: .cache/pip
+  VENV_PATH: .venv
+  DIST_DIR: dist
+  CERTS_DIR: certs
