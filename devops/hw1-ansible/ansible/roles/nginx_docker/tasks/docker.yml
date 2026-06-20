@@ -1,0 +1,46 @@
+- name: Stop and remove old Nginx container if exists
+  community.docker.docker_container:
+    name: "{{ nginx_container_name }}"
+    state: absent
+
+- name: Render nginx configuration on controller -> host file
+  template:
+    src: nginx.conf.j2
+    dest: "{{ nginx_host_conf }}/nginx.conf"
+    mode: "0644"
+
+- name: Pull nginx image (ensure it is available)
+  community.docker.docker_image:
+    name: "{{ nginx_image }}"
+    source: pull
+
+- name: Assemble docker volume bindings
+  set_fact:
+    nginx_volume_bindings: >-
+      {{
+        [
+          (nginx_host_conf + '/nginx.conf') ~ ':' ~ '/etc/nginx/nginx.conf:ro',
+          (nginx_host_html) ~ ':' ~ '/usr/share/nginx/html:ro'
+        ]
+        + ( [ nginx_host_ssl ~ ':/etc/nginx/ssl:ro' ] if nginx_enable_https | bool else [] )
+      }}
+
+- name: Start (or recreate) nginx container
+  community.docker.docker_container:
+    name: "{{ nginx_container_name }}"
+    image: "{{ nginx_image }}"
+    state: started
+    restart_policy: unless-stopped
+    published_ports: >
+      {{
+        [
+          (nginx_container_http_port|string) ~ ':80'
+        ] + ( [(nginx_container_https_port|string) ~ ':443'] if nginx_enable_https | bool else [] )
+      }}
+    volumes: "{{ nginx_volume_bindings }}"
+    recreate: true
+  register: nginx_container_result
+
+- name: Show container start result
+  debug:
+    msg: "Container started: {{ nginx_container_result }}"

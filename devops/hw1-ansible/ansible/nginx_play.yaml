@@ -1,0 +1,7 @@
+- name: Deploy Nginx web server
+  hosts: all
+  become: true
+  vars:
+    nginx_enable_https: true
+  roles:
+    - nginx_docker

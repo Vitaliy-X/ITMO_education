@@ -1,0 +1,9 @@
+- name: Ensure prerequisites and host paths
+  import_tasks: prepare.yml
+
+- name: Ensure SSL artifacts present when HTTPS requested
+  import_tasks: ssl.yml
+  when: nginx_enable_https | bool
+
+- name: Render and populate config & content then launch container
+  import_tasks: docker.yml

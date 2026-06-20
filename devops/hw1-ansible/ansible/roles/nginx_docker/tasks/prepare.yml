@@ -1,0 +1,20 @@
+- name: Create host base directories for nginx
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  loop:
+    - "{{ nginx_host_base }}"
+    - "{{ nginx_host_conf }}"
+    - "{{ nginx_host_html }}"
+    - "{{ nginx_host_ssl }}/certs"
+    - "{{ nginx_host_ssl }}/private"
+
+- name: Copy static assets from role 'files/static' to host mount
+  copy:
+    src: "{{ nginx_static_src }}/"
+    dest: "{{ nginx_host_html }}/"
+    mode: "0644"
+  when: nginx_use_static and lookup('ansible.builtin.first_found', [role_path + '/files/' + nginx_static_src], errors='ignore') is not none

@@ -1,0 +1,2 @@
+nginx_enable_https: true
+nginx_use_static: false

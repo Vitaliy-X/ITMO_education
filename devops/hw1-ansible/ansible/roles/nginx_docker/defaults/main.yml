@@ -1,0 +1,20 @@
+nginx_container_name: nginx_srv
+nginx_image: "nginx:stable"
+nginx_container_http_port: 80
+nginx_container_https_port: 443
+
+nginx_host_base: /opt/nginx
+nginx_host_conf: "{{ nginx_host_base }}/conf"
+nginx_host_html: "{{ nginx_host_base }}/html"
+nginx_host_ssl: "{{ nginx_host_base }}/ssl"
+
+nginx_server_name: "localhost"
+nginx_index: index.html
+
+nginx_static_src: "static"
+
+# HTTPS
+nginx_ssl_cert_path: "{{ nginx_host_ssl }}/certs/nginx.crt"
+nginx_ssl_key_path: "{{ nginx_host_ssl }}/private/nginx.key"
+nginx_ssl_csr_path: "{{ nginx_host_ssl }}/private/nginx.csr"
+nginx_ssl_days: 365

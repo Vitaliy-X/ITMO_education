@@ -1,0 +1,42 @@
+worker_processes 1;
+events { worker_connections 1024; }
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    sendfile on;
+    keepalive_timeout 65;
+
+    server {
+        listen 80;
+        server_name {{ nginx_server_name }};
+
+        {% if nginx_enable_https %}
+        # redirect HTTP -> HTTPS
+        return 301 https://$host$request_uri;
+        {% else %}
+        root /usr/share/nginx/html;
+        index {{ nginx_index }};
+        location / {
+            try_files $uri $uri/ =404;
+        }
+        {% endif %}
+    }
+
+    {% if nginx_enable_https %}
+    server {
+        listen 443 ssl;
+        server_name {{ nginx_server_name }};
+
+        ssl_certificate /etc/nginx/ssl/certs/nginx.crt;
+        ssl_certificate_key /etc/nginx/ssl/private/nginx.key;
+
+        root /usr/share/nginx/html;
+        index {{ nginx_index }};
+
+        location / {
+            try_files $uri $uri/ =404;
+        }
+    }
+    {% endif %}
+}
