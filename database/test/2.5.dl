@@ -1,0 +1,16 @@
+teamSolvedTask(TeamId, ContestId, Letter) :-
+    Sessions(SessionId, TeamId, ContestId, _),
+    Runs(_, SessionId, Letter, _, 1).
+
+unsolvedByTarget(ContestId, Letter) :-
+    Problems(ContestId, Letter, _),
+    not teamSolvedTask(:TeamId, ContestId, Letter).
+
+candidateMissed(CandidateTeamId) :-
+    unsolvedByTarget(ContestId, Letter),
+    not teamSolvedTask(CandidateTeamId, ContestId, Letter).
+
+teamSolvedAllUnsolvedByTarget(CandidateTeamId) :-
+    Teams(CandidateTeamId, _, _),
+    CandidateTeamId <> :TeamId,  % опционально
+    not candidateMissed(CandidateTeamId).

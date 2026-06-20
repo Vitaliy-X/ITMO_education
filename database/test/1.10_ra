@@ -1,0 +1,8 @@
+proj{ContestId, Letter}(
+  Problems ⋈
+  sigma{
+    forall s in Sessions : 
+      exists r in Runs : 
+        r.SessionId = s.SessionId and r.Letter = Problems.Letter and s.ContestId = Problems.ContestId
+  } (Problems)
+)

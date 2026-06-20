@@ -1,0 +1,5 @@
+proj{TeamName}(Teams)
+diff
+proj{TeamName}(
+  (Teams ⋈ Sessions) ⋈ sigma{Accepted = 1}(Runs)
+)

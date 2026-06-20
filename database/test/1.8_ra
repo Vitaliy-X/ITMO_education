@@ -1,0 +1,5 @@
+proj{UnivName} (
+  (Universities ⋈ Teams ⋈ Sessions)
+  diff
+  (Universities ⋈ Teams ⋈ Sessions ⋈ Runs)
+)

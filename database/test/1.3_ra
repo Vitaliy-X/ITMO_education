@@ -1,0 +1,5 @@
+proj{RunId, TeamId, SubmitTime, Accepted}(
+  sigma{Letter = :Letter && ContestName = :ContestName}(
+    (Runs ⋈ Sessions) ⋈ Contests
+  )
+)

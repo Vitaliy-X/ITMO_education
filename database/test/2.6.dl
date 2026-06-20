@@ -1,0 +1,8 @@
+sessionSolvedTask(SessionId, Letter) :-
+    Runs(runId, SessionId, Letter, _, 1).
+taskSolvedByAny(SessionTaskContestId, SessionTaskLetter) :-
+    Sessions(sessionId, _, SessionTaskContestId, _),
+    sessionSolvedTask(sessionId, SessionTaskLetter).
+unsolvedTask(ProblemName) :-
+    Problems(contestId, letter, ProblemName),
+    not taskSolvedByAny(contestId, letter).

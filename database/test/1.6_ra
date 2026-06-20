@@ -1,0 +1,5 @@
+proj{ProblemName, ContestId}(Problems)
+diff
+proj{ProblemName, ContestId}(
+  Problems ⋈ sigma{Accepted = 1}(Runs)
+)
