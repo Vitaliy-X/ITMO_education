@@ -1,0 +1,12 @@
+[Unit]
+Description=Counter Backend
+Wants=network-pre.target
+After=network-pre.target nginx.service
+
+[Service]
+ExecStart=/opt/counter-backend/counter-backend
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

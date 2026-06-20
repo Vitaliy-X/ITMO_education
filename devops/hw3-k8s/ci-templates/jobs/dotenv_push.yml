@@ -1,0 +1,24 @@
+include:
+  - local: jobs/git_strategy.yml
+  - local: variables/dotenv_vars.yml
+.job__dotenv_push:
+  stage: publish
+  image:
+    name: $KANIKO_IMAGE
+    entrypoint: [""]
+  script: 
+    - export PUSH_DOTENV_TOKEN=$_DEPLOY_TOKEN # Используем токен созданный для counter-deploy
+    - cat $CI_PROJECT_NAME # Проверяем, что файл передался и содержит нужные нам данные
+    - git clone --depth 1 --branch "$PUSH_DOTENV_PROJECT_BRANCH" "https://ci-bot:$PUSH_DOTENV_TOKEN@$CI_SERVER_HOST/${PUSH_DOTENV_PROJECT_PATH}.git" $PUSH_DOTENV_TARGET_DIR # Клонируем репозиторий counter-deploy
+    - git -C $PUSH_DOTENV_TARGET_DIR config user.name ci-bot # Настраиваем обязательные парамметры для git commit
+    - git -C $PUSH_DOTENV_TARGET_DIR config user.email ci-bot@git.devops-teta.ru # Настраиваем обязательные парамметры для git commit
+    - ls -l $PUSH_DOTENV_TARGET_DIR/$PUSH_DOTENV_VARS_PATH 
+    - PUSH_DOTENV_TARGET_PATH="$PUSH_DOTENV_TARGET_DIR/$PUSH_DOTENV_VARS_PATH/${CI_PROJECT_NAME//-/_}.env" # Определяем путь до файла с переменной, которую нам необходимо изменить.
+    - cp $CI_PROJECT_NAME $PUSH_DOTENV_TARGET_PATH
+    - IFCHANGED=$(git -C $PUSH_DOTENV_TARGET_DIR  status --porcelain) # Проверяем, было ли изменение или запущен текущий коммит/тег.
+    - if [ ! -n "${IFCHANGED:-}" ]; then echo "Not changed"; exit 0; fi
+    - git -C $PUSH_DOTENV_TARGET_DIR add .
+    - git -C $PUSH_DOTENV_TARGET_DIR commit -m "$CI_COMMIT_MESSAGE"
+    - git -C $PUSH_DOTENV_TARGET_DIR push origin "HEAD:$PUSH_DOTENV_PROJECT_BRANCH" #делаем коммит и пуш
+  extends:
+    - .job__no_clone # используем no_clone, т.к. никакие исходные коды приложения на данном этапе нам не нужны. Экономит время выполнения.

@@ -1,0 +1,68 @@
+{{- if .Values.backend.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backend.name }}
+  labels:
+    app: counter
+    role: backend
+    student: {{ .Values.global.student | quote }}
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      app: counter
+      role: backend
+  template:
+    metadata:
+      labels:
+        app: counter
+        role: backend
+        student: {{ .Values.global.student | quote }}
+    spec:
+      {{- with .Values.image.pullSecrets }}
+      imagePullSecrets:
+        {{- range . }}
+        - name: {{ .name }}
+        {{- end }}
+      {{- end }}
+      containers:
+        - name: backend
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.service.targetPort }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+          livenessProbe:
+            {{- toYaml .Values.backend.probes.liveness | nindent 12 }}
+          readinessProbe:
+            {{- toYaml .Values.backend.probes.readiness | nindent 12 }}
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      {{- toYaml .Values.scheduling.nodes | nindent 22 }}
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: {{ .Values.scheduling.topologyKey | quote }}
+                labelSelector:
+                  matchLabels:
+                    app: counter
+                    role: backend
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: {{ .Values.scheduling.topologyKey | quote }}
+                labelSelector:
+                  matchLabels:
+                    app: counter
+                    role: frontend
+{{- end }}

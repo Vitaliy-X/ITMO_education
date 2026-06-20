@@ -1,0 +1,60 @@
+include:
+  - local: jobs/poetry.yml
+  - local: variables/main.yml
+  - local: jobs/kaniko.yml
+  - local: jobs/dotenv_push.yml
+  - local: rules/main.yml
+
+stages:
+  - build
+  - test
+  - publish
+  - deploy
+
+job_update_cache:
+  stage: .pre
+  needs: []
+  extends: [ .poetry_cache_blocks, .poetry_build_job, .allow_failure ]
+  script:
+    - !reference [.poetry_prepare_env]
+  rules:
+    - !reference [.enable_lint]
+    - !reference [.on_merge_requests]
+    - !reference [.on_default_branch]
+
+build_package_job:
+  stage: build
+  needs:
+    - job: job_update_cache
+      artifacts: false
+  extends: [ .poetry_build_job ]
+  artifacts:
+    expire_in: 1h
+    paths:
+      - server.tar.gz
+      - dist
+  rules:
+    - !reference [.on_merge_requests]
+    - !reference [.on_default_branch]
+    - !reference [.on_release_tag]
+
+publish_package_job:
+  stage: publish
+  needs:
+    - job: build_package_job
+      artifacts: true
+  extends: [ .job__kaniko_publish_image ]
+  interruptible: false
+  rules:
+    - !reference [.on_default_branch]
+    - !reference [.on_release_tag]
+
+deploy_stage:
+  stage: deploy
+  needs:
+    - job: publish_package_job
+      artifacts: true
+  extends: [ .job__dotenv_push ]
+  rules:
+    - !reference [.on_default_branch]
+    - !reference [.on_release_tag]

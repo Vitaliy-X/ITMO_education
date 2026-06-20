@@ -1,0 +1,116 @@
+nameOverride: ""
+fullnameOverride: ""
+
+global:
+  student: gavrilyuk
+  domain: kube.itmo.devops-teta.ru
+
+scheduling:
+  nodes:
+    - kube-minion-01
+    - kube-minion-02
+  topologyKey: kubernetes.io/hostname
+
+image:
+  pullPolicy: IfNotPresent
+  pullSecrets:
+    - name: registry-secret
+
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+
+  routes:
+    frontend:
+      path: /
+      pathType: Prefix
+    backend:
+      path: /api
+      pathType: Prefix
+
+  tls:
+    enabled: true
+    secretNamePrefix: counter-tls-gavrilyuk
+
+backend:
+  enabled: true
+  name: counter-backend
+  image:
+    repository: harbor.devops-teta.ru/PROJECT/counter-backend
+    tag: latest
+
+  replicaCount: 1
+
+  service:
+    type: ClusterIP
+    port: 8080
+    targetPort: 8080
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  probes:
+    liveness:
+      httpGet:
+        path: /api/counter
+        port: 8080
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+    readiness:
+      httpGet:
+        path: /api/counter
+        port: 8080
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      timeoutSeconds: 3
+      failureThreshold: 3
+
+frontend:
+  enabled: true
+  name: counter-frontend
+  image:
+    repository: harbor.devops-teta.ru/PROJECT/counter-frontend
+    tag: latest
+
+  replicaCount: 1
+
+  service:
+    type: ClusterIP
+    port: 3000
+    targetPort: 3000
+
+  resources:
+    requests:
+      cpu: 500m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+
+  probes:
+    liveness:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      timeoutSeconds: 5
+      failureThreshold: 3
+    readiness:
+      httpGet:
+        path: /
+        port: 3000
+      initialDelaySeconds: 10
+      periodSeconds: 5
+      timeoutSeconds: 3
+      failureThreshold: 3

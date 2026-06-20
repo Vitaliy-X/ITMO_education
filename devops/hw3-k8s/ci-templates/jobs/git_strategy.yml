@@ -1,0 +1,16 @@
+.job__shallow_clone:
+  variables:
+    GIT_STRATEGY: fetch
+    GIT_DEPTH: 20
+    GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_PROJECT_PATH_SLUG
+
+.job__full_clone:
+  variables:
+    GIT_STRATEGY: clone
+    GIT_DEPTH: 0
+    GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_PROJECT_PATH_SLUG
+
+.job__no_clone:
+  variables:
+    GIT_STRATEGY: none
+

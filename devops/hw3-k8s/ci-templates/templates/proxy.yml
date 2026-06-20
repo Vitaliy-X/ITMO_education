@@ -1,0 +1,18 @@
+include:
+  - local: rules/main.yml
+
+stages:
+  - deploy
+
+deploy_job:
+  stage: deploy
+  tags:
+    - deploy
+    - prom
+  script:
+    - docker build -t proxy:latest .
+    - docker-compose down || true
+    - docker-compose up -d --build
+  rules:
+    - !reference [.on_default_branch]
+    - !reference [.on_release_tag]

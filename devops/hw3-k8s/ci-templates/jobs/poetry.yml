@@ -1,0 +1,43 @@
+include:
+  - local: variables/main.yml
+
+.poetry_prepare_env:
+  - pip install --no-cache-dir poetry poetry-plugin-export
+  - poetry --version
+  - poetry config virtualenvs.in-project true
+  - poetry install --no-root --sync
+
+.poetry_cache_blocks:
+  cache:
+    - &build_poetry_cache
+      key: py-poetry-cache
+      paths: [ $POETRY_CACHE_DIR, $PIP_CACHE_DIR ]
+      unprotect: true
+    - &build_poetry_venv
+      key:
+        prefix: py-poetry-venv
+        files: [ poetry.lock ]
+      paths: [ $VENV_PATH ]
+      unprotect: true
+
+.poetry_build_job:
+  image:
+    name: $PYTHON_IMAGE
+    entrypoint: [""]
+  cache:
+    - <<: *build_poetry_cache
+      policy: pull
+    - <<: *build_poetry_venv
+      policy: pull
+  script:
+    - !reference [.poetry_prepare_env]
+    - mkdir -p $DIST_DIR
+    - poetry export --without-hashes --format constraints.txt --output $DIST_DIR/constraints.txt
+    - poetry run python -m pip wheel --isolated --requirement $DIST_DIR/constraints.txt --wheel-dir $DIST_DIR/vendor
+    - poetry build --format wheel
+    - |
+      for f in install.sh counter-backend counter-backend.service
+      do
+        if [ -f deploy/$f ]; then cp deploy/$f dist/; fi
+      done
+    - tar -czvf server.tar.gz -C dist .
