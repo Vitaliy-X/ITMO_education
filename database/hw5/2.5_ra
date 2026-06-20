@@ -1,0 +1,7 @@
+pi{StudentId, StudentName, GroupName}
+(sigma{StudentName = :StudentName}(Students)
+njoin rho{StudentId = ClubStudentHeadId}(Clubs)
+njoin ClubMembers
+njoin Students
+njoin Groups)
+

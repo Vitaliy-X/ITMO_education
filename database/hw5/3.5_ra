@@ -1,0 +1,4 @@
+pi{StudentId, StudentName, GroupId}
+(sigma{Mark = :Mark}((pi{CourseId}(sigma{LecturerId = :LecturerId}(Plan)))
+njoin Marks njoin Students))
+
