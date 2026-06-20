@@ -1,0 +1,51 @@
+Vitaliy Gavrilyuk
+ProcessLamportMutex
+#actions
+{1 SEND 2} 2, REQ, 1
+{2 SEND 1} 4, OK
+{2 SEND 1} 2, REQ, 1
+{1 SEND 2} 10, REQ, 9
+{1 SEND 2} 8, OK
+{2 SEND 1} 14, REL
+{2 SEND 1} 16, REQ, 15
+{2 SEND 1} 12, OK
+{1 SEND 2} 6, REL
+{1 SEND 2} 18, OK
+#process 1
+0 LockRequest
+40 {1 SEND 2} 2, REQ, 1
+160 {1 RCVD 2} 4, OK
+200 Lock
+240 Unlock
+280 {1 SEND 2} 6, REL
+320 {1 RCVD 2} 2, REQ, 1
+360 {1 SEND 2} 8, OK
+400 LockRequest
+440 {1 SEND 2} 10, REQ, 9
+720 {1 RCVD 2} 14, REL
+800 {1 RCVD 2} 16, REQ, 15
+840 {1 SEND 2} 18, OK
+880 {1 RCVD 2} 12, OK
+920 Lock
+960 Unlock
+1000 {1 SEND 2} 20, REL
+1040 LockRequest
+1080 {1 SEND 2} 22, REQ, 21
+#process 2
+0 LockRequest
+40 {2 SEND 1} 2, REQ, 1
+80 {2 RCVD 1} 2, REQ, 1
+120 {2 SEND 1} 4, OK
+480 {2 RCVD 1} 10, REQ, 9
+520 {2 SEND 1} 12, OK
+560 {2 RCVD 1} 8, OK
+600 Lock
+640 Unlock
+680 {2 SEND 1} 14, REL
+720 LockRequest
+760 {2 SEND 1} 16, REQ, 15
+800 {2 RCVD 1} 6, REL
+880 {2 RCVD 1} 18, OK
+920 Lock
+960 Unlock
+1000 {2 SEND 1} 20, REL
